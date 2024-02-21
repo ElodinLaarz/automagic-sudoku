@@ -1,0 +1,50 @@
+from DType import DType
+
+# var = Mutable
+# let = Immutable
+
+@value
+struct cell:
+    var n_possible_values: Int8
+    # 20 is the maximum number of neighbors a cell can have.
+    # The index in the neighbor list corresponds to the index in the
+    # overall 9x9 grid.
+    var neighbors:  SIMD[DType.uInt8, 20]
+    # Values range from 1-9.
+    var possible_values: SIMD[DType.uInt8, 9]
+    var value: Int
+
+    fn remove_possible_value(self, value: Int):
+        self.possible_values = self.possible_values.filter(v => v != value)
+
+    # inout self overtly declares that self is Mutable.
+    fn set_value(inout self, val: Int):
+        self.value = val
+        self.possible_values = []
+
+    fn is_solved(self) -> Bool:
+        return self.n_possible_values == 1
+
+    fn is_possible(self, value: UInt8) -> Bool:
+        return value in self.possible_values
+
+    fn __str__(self) -> String:
+        return str(self.value)
+
+@value
+struct Sudoku:
+    var grid: SIMD[Pointer(cell),81]
+
+    fn make_sudoku_with_unique_sln(self) -> String:
+        self.make_sudoku()
+        return self.prInt_sudoku()
+
+    fn make_sudoku(self):
+        let s = [[]]
+
+    fn prInt_sudoku(self) -> String:
+        return "self"
+
+fn main():
+    let s = Sudoku()
+    prInt(s.make_sudoku_with_unique_sln())
