@@ -1,50 +1,87 @@
-from DType import DType
+from python import Python, PythonObject
+# from tensor import Tensor, TensorSpec
+# from random import rand
+# from memory.anypointer import AnyPointer
+from collections.vector import InlinedFixedVector
 
-# var = Mutable
+
+# alias = Immutable at compile time
 # let = Immutable
+# var = Mutable
 
-@value
-struct cell:
-    var n_possible_values: Int8
-    # 20 is the maximum number of neighbors a cell can have.
-    # The index in the neighbor list corresponds to the index in the
-    # overall 9x9 grid.
-    var neighbors:  SIMD[DType.uInt8, 20]
-    # Values range from 1-9.
-    var possible_values: SIMD[DType.uInt8, 9]
-    var value: Int
+# @value
+# struct cell:
+#     var n_possible_values: Int8
+#     # 20 is the maximum number of neighbors a cell can have.
+#     # The index in the neighbor list corresponds to the index in the
+#     # overall 9x9 grid.
+#     var neighbors:  DynamicVector[cell, 20]
+#     # Values range from 1-9.
+#     var possible_values: SIMD[DType.uint8, 9]
+#     var value: Int8
+#     var ruleSet: fn (DynamicVector[cell, 20]) -> SIMD[DType.uint8, 9]
 
-    fn remove_possible_value(self, value: Int):
-        self.possible_values = self.possible_values.filter(v => v != value)
+#     fn set_value(inout self, val: Int) -> Bool:
+#         var set_val = False
+#         @unroll
+#         for i in range(len(self.n_possible_values)):
+#             if val == 0 or self.possible_values[i] == val:
+#                 self.value = val
+#                 self.n_possible_values = 1
+#                 set_val = True
+#         return set_val
 
-    # inout self overtly declares that self is Mutable.
-    fn set_value(inout self, val: Int):
-        self.value = val
-        self.possible_values = []
+#     fn remove_value(inout self, val: Int):
+#         # Update self
+#         self.value = 0
+#         # Check possible values from board state and neighbors
+#         self.possible_values = self.ruleSet(self.neighbors)
+#         # Update neighbors
+#         self.neighbors[0].update_possible_values()
+#         @unroll
+#         for i in range(len(self.neighbors)):
 
-    fn is_solved(self) -> Bool:
-        return self.n_possible_values == 1
+#     fn update_possible_values(inout self):
+#         self.possible_values = self.ruleSet(self.neighbors)
 
-    fn is_possible(self, value: UInt8) -> Bool:
-        return value in self.possible_values
+#     fn is_solved(self) -> Bool:
+#         return self.n_possible_values == 1
 
-    fn __str__(self) -> String:
-        return str(self.value)
+#     fn is_possible(self, value: UInt8) -> Bool:
+#         return self.possible_values.contains(value)
+
+#     fn __str__(self) -> String:
+#         return str(self.value)
 
 @value
 struct Sudoku:
-    var grid: SIMD[Pointer(cell),81]
+    var grid: InlinedFixedVector[UInt8, 81]
+    var side_length: Int
 
-    fn make_sudoku_with_unique_sln(self) -> String:
-        self.make_sudoku()
-        return self.prInt_sudoku()
+    fn __init__(inout self, side_length: Int):
+        self.side_length = side_length
+        self.grid = InlinedFixedVector[UInt8, 81](0)
+        let e = self.make_sudoku_with_unique_sln(side_length)
+        if e:
+            print(e)
 
-    fn make_sudoku(self):
-        let s = [[]]
+    fn make_sudoku_with_unique_sln(inout self, side_length: Int) -> Error:
+        if side_length > 9:
+            return Error("Side length must be at most 9.")
+        self.make_sudoku(side_length*side_length)
+        self.print_sudoku()
+        return Error("")
 
-    fn prInt_sudoku(self) -> String:
-        return "self"
+    fn make_sudoku(inout self, board_size: Int):
+        for i in range(board_size):
+            self.grid.append(1)
+
+    fn print_sudoku(self):
+        for i in range(self.side_length):
+            for j in range(self.side_length):
+                print_no_newline(self.grid[i*self.side_length+j])
+            print("")
 
 fn main():
-    let s = Sudoku()
-    prInt(s.make_sudoku_with_unique_sln())
+    let side_length = 2
+    var s = Sudoku(side_length)
