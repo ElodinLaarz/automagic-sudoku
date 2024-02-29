@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTMX + Golang Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="p-5">
+    <div class="text-center space-y-4">
+        <h1 class="text-xl font-bold">HTMX + Golang Example</h1>
+        <div id="response" class="text-green-500"></div>
+        <button hx-get="/action?button=1" hx-target="#response" hx-swap="outerHTML" class="px-4 py-2 bg-blue-500 text-white rounded">Button 1</button>
+        <button hx-get="/action?button=2" hx-target="#response" hx-swap="outerHTML" class="px-4 py-2 bg-blue-500 text-white rounded">Button 2</button>
+    </div>
+    {{template "name_card" .}}
+</body>
+</html>
