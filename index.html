@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grid Sync</title>
+    <script src="https://unpkg.com/htmx.org"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h2> Sudoku Sync </h2>
+    <div id="grid-container" class="grid-container">
+        <div id="grids"
+                hx-get="/grids"
+                hx-target="this"
+                hx-trigger="load"
+                hx-swap="outerHTML">
+            Loading...
+        </div>
+    </div>
+</body>
+</html>
+
