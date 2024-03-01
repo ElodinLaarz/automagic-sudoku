@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package sudoku;
+
+option go_package = "github.com/ElodinLaarz/automagic-sudoku/src/proto/sudoku"
+
+service SudokuServer {
+    rpc Create (Request) return (Response);
+}
+
+enum CreationType {
+    UNSPECIFIED = 0;
+    EMPTY = 1;
+    RANDOM = 2;
+}
+
+message Request {
+    uint64 id = 0;
+    uint64 box_size = 1; 
+    uint64 num_of_grids = 2;
+    CreationType creation_type = 3;
+    bool is_solved = 4;
+}
+
+message Response {
+    uint64 id = 0;
+    message Grid {
+        repeated uint64 cell = 1;
+    }
+    repeated Grid grids = 1;
+}
