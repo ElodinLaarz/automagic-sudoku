@@ -5,7 +5,7 @@
             {{ range .Cells }}
                 <div class="{{ .Class }}"
                         id="{{ .Id }}"
-                        hx-get="/highlight?originIndex={{ .OriginIndex }}"
+                        hx-get="/neighbor?originIndex={{ .OriginIndex }}"
                         hx-trigger="mouseenter"
                         hx-target="#grid-container">
                     {{ .OriginIndex }}
@@ -13,5 +13,6 @@
             {{ end }}
             </div>
         {{ end }}
+        Sudoku Grid # {{ .GridIndex }}
     </div>
 {{ end }}

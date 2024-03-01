@@ -12,7 +12,7 @@ const (
 	HighlightedCellClass = "cell-highlighted"
 
 	StandardGridSize = 3
-	NumGrids         = 3
+	NumGrids         = 2
 )
 
 type Cell struct {
@@ -26,8 +26,9 @@ type Row struct {
 	Cells []Cell
 }
 type Grid struct {
-	Rows     []Row
-	GridSize int
+	Rows      []Row
+	GridIndex int
+	GridSize  int
 }
 
 func cellIdString(cellIndex, gridIndex int) string {
@@ -60,13 +61,14 @@ func makeGrid(gridSize, gridIndex int) []Row {
 
 func MakeGrids(NumGrids, gridSize int) []Grid {
 	var grids []Grid
-	for i := 0; i < NumGrids; i++ {
+	for gridIndex := 0; gridIndex < NumGrids; gridIndex++ {
 		g := Grid{
-			Rows:     makeGrid(gridSize, i),
-			GridSize: gridSize,
+			Rows:      makeGrid(gridSize, gridIndex),
+			GridSize:  gridSize,
+			GridIndex: gridIndex + 1,
 		}
-		if i != 0 {
-			g.shuffleRows(int64(i))
+		if gridIndex != 0 {
+			g.shuffleRows(int64(gridIndex))
 		}
 		grids = append(grids, g)
 	}
@@ -99,7 +101,13 @@ func NeighborCells(index, size int) map[string]bool {
 	return nbs
 }
 
+var (
+	updateCount = 0
+)
+
 func RenderGrid(w http.ResponseWriter, gridData map[string][]Grid) error {
+	fmt.Printf("update #%d\n", updateCount)
+	updateCount++
 	tmpl, err := template.ParseFiles("./src/templates/grid.html")
 	if err != nil {
 		return fmt.Errorf("error parsing template: %s", err)

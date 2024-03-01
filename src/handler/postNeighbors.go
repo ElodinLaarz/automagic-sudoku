@@ -22,7 +22,6 @@ func NeighborHandler(w http.ResponseWriter, r *http.Request) {
 			for colIndex, cell := range row.Cells {
 				if _, ok := neighbors[cell.Id]; ok {
 					data.Rows[rowIndex].Cells[colIndex].Class = grid.HighlightedCellClass
-					data.Rows[rowIndex].Cells[colIndex].Value = 1
 				}
 			}
 		}
