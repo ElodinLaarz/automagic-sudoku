@@ -13,8 +13,8 @@ const (
 
 	DomainGridName = "Domain"
 
-	SingleBoxSize = 3
-	NumGrids      = 4
+	SingleBoxSize = 2
+	NumGrids      = 6
 )
 
 type Cell struct {

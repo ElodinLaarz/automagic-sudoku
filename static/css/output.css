@@ -590,6 +590,7 @@ video {
   cursor: pointer;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   border-radius: 1.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(30 41 59 / var(--tw-bg-opacity));
@@ -698,7 +699,7 @@ video {
   height: 100vh;
   width: 100vw;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
   place-content: space-between;
   align-items: center;
   justify-items: center;

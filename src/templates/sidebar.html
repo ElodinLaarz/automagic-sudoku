@@ -1,9 +1,6 @@
 <div id="sideBar"
         class="sidebar">
         <div class="sidebar-header">
-                <button class="close-btn" id="close-btn">
-                        <i class="fas fa-times"></i>
-                </button>
                 <i class="sidebar-icon-l group"
                                 id="show-main"
                                 hx-get="/main"
@@ -17,22 +14,25 @@
                                 hx-get="/grids"
                                 hx-trigger="click"
                                 hx-target="#grid-container">
-                        Iso
+                        <i class="fa-solid fa-table-cells"></i>
                         <span class="sidebar-tooltip group-hover:scale-100">Random Maps</span>
                         </i>
                 <i class="sidebar-icon">
                         Phi </i>
                 <i class="sidebar-icon"> WIP </i>
-                {{ template "icon.html" . }}
         </div>
         <div class="sidebar-links">
                 <h2>Settings</h2>
                 <div class="sidebar-settings">
                         <i class="sidebar-setting">
-                                D/L </i>
+                                <i class="fa-regular fa-moon"></i>
+                        </i>
                         <i class="sidebar-setting">
-                                cog </i>
+                                <i class="fa-solid fa-gears"></i>
+                        </i>
                 </div>
-                <i class="sidebar-link"> GH </i>
+                <i class="sidebar-link"> 
+                        github <i class="fa-brands fa-github"></i>
+                </i>
         </div>
 </div>
