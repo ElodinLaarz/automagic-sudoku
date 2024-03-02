@@ -8,11 +8,11 @@ import (
 )
 
 const (
-	DefaultCellClass     = "text-green-500"
+	DefaultCellClass     = "cell"
 	HighlightedCellClass = "cell-highlighted"
 
 	StandardGridSize = 3
-	NumGrids         = 2
+	NumGrids         = 4
 )
 
 type Cell struct {
@@ -37,6 +37,13 @@ func cellIdString(cellIndex, gridIndex int) string {
 
 func (g *Grid) shuffleRows(seed int64) {
 	rand.New(rand.NewSource(seed)).Shuffle(len(g.Rows), func(i, j int) { g.Rows[i], g.Rows[j] = g.Rows[j], g.Rows[i] })
+}
+
+func (g *Grid) shuffleCells(seed int64) {
+	for rowIndex := range len(g.Rows) {
+		r := g.Rows[rowIndex].Cells
+		rand.New(rand.NewSource(seed*int64(rowIndex))).Shuffle(len(r), func(i, j int) { r[i], r[j] = r[j], r[i] })
+	}
 }
 
 func makeGrid(gridSize, gridIndex int) []Row {
@@ -67,8 +74,11 @@ func MakeGrids(NumGrids, gridSize int) []Grid {
 			GridSize:  gridSize,
 			GridIndex: gridIndex + 1,
 		}
-		if gridIndex != 0 {
+		if gridIndex == 1 {
 			g.shuffleRows(int64(gridIndex))
+		}
+		if gridIndex > 1 {
+			g.shuffleCells(int64(gridIndex))
 		}
 		grids = append(grids, g)
 	}

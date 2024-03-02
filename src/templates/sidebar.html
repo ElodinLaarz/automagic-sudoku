@@ -1,15 +1,18 @@
 <div id="sideBar"
         class="fixed
-                top-0
-                h-screen
-                w-32
-                flex
-                flex-col
-                text-cyan-200
+                items-center
+                top-0 left-0 z-40 w-32
+                h-screen transition-transform
+                -translate-x-full sm:translate-x-0
                 bg-slate-900
-                shadow">
-    <i> A </i>
-    <i> B </i>
-    <i> C </i>
-    <i> D </i>
+                shadow-rose-300
+                shadow-md">
+        <h2 class="sidebar-icon">
+                SuVi </h2>
+        {{ template "icon.html" . }}
+        {{ template "icon.html" . }}
+        {{ template "icon.html" . }}
+        {{ template "icon.html" . }}
+        <h2 class="sidebar-icon">
+                D/L </h2>
 </div>

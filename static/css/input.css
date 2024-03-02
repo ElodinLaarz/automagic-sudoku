@@ -1,3 +1,66 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+
+    .sidebar-icon {
+        @apply relative flex items-center justify-center 
+            h-12 w-12 mt-2 mb-2 mx-auto shadow-lg
+            bg-gray-800 text-rose-300
+            hover:bg-slate-200 hover:text-black
+            rounded-3xl hover:rounded-lg
+            transition-all duration-300 ease-linear
+            cursor-pointer;
+    }
+
+    .cell {
+        @apply 
+                text-primary-300
+                border-2
+                border-opacity-0
+                bg-secondary-800
+                cursor-pointer
+                w-10 h-10
+                text-center
+                text-2xl;
+    }
+
+    .cell-highlighted {
+        @apply bg-primary-300 text-black
+                border-2 border-secondary-900
+                duration-300
+                cursor-pointer
+                w-10 h-10
+                text-center
+                border-dashed
+                text-2xl;
+    }
+
+    .grid-container {
+        @apply grid grid-rows-2
+                grid-cols-2
+                place-content-between
+                h-screen
+                w-screen
+                items-center
+                justify-items-center
+                text-primary-300 bg-secondary-800
+    }
+
+    .sudoku-grid {
+        @apply flex flex-col justify-around
+            items-stretch
+            /* w-72 h-72 */
+            bg-primary-900
+            border-green-400
+            aspect-square;
+    }
+
+    .sudoku-row {
+        @apply flex
+                items-center
+                flex-row;
+    }
+
+}

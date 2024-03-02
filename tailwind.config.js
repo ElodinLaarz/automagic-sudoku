@@ -1,4 +1,5 @@
 const colors = require('tailwindcss/colors')
+const fonts = require('tailwindcss/defaultTheme').fontFamily
 
 module.exports = {
   mode: 'jit',
@@ -8,9 +9,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'light-blue': colors.lightBlue,
-        cyan: colors.cyan,
+        primary: colors.rose,
+        secondary: colors.slate,
       },
+      fonts: {
+        default: ['Open Sans', ...fonts.sans],
+      }
     },
   },
   plugins: [],
