@@ -1,18 +1,34 @@
 <div id="sideBar"
-        class="fixed
-                items-center
-                top-0 left-0 z-40 w-32
-                h-screen transition-transform
-                -translate-x-full sm:translate-x-0
-                bg-slate-900
-                shadow-rose-300
-                shadow-md">
-        <h2 class="sidebar-icon">
-                SuVi </h2>
-        {{ template "icon.html" . }}
-        {{ template "icon.html" . }}
-        {{ template "icon.html" . }}
-        {{ template "icon.html" . }}
-        <h2 class="sidebar-icon">
-                D/L </h2>
+        class="sidebar">
+        <div class="sidebar-header">
+                <button class="close-btn" id="close-btn">
+                        <i class="fas fa-times"></i>
+                </button>
+                <i class="sidebar-icon-l"
+                                id="show-main"
+                                hx-get="/main"
+                                hx-trigger="click"
+                                hx-target="#main-content">
+                        SuVi </i>
+                <i class="sidebar-icon" 
+                                id="show-grids"
+                                hx-get="/grids"
+                                hx-trigger="click"
+                                hx-target="#grid-container">
+                        Iso </i>
+                <i class="sidebar-icon">
+                        Phi </i>
+                <i class="sidebar-icon"> WIP </i>
+                {{ template "icon.html" . }}
+        </div>
+        <div class="sidebar-links">
+                <h2>Settings</h2>
+                <div class="sidebar-settings">
+                        <i class="sidebar-setting">
+                                D/L </i>
+                        <i class="sidebar-setting">
+                                cog </i>
+                </div>
+                <i class="sidebar-link"> GH </i>
+        </div>
 </div>

@@ -9,9 +9,10 @@ import (
 )
 
 const (
-	index   = "src/templates/index.html"
-	sidebar = "src/templates/sidebar.html"
-	icon    = "src/templates/icon.html"
+	indexTmpl   = "src/templates/index.html"
+	sidebarTmpl = "src/templates/sidebar.html"
+	iconTmpl    = "src/templates/icon.html"
+	mainTmpl    = "src/templates/main.html"
 )
 
 type IconTemplate struct {
@@ -30,7 +31,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 		"grid": grid.MakeGrids(grid.NumGrids, grid.StandardGridSize),
 		"icon": exampleIcons,
 	}
-	tmpl, err := template.ParseFiles(index, sidebar, icon)
+	tmpl, err := template.ParseFiles(indexTmpl, sidebarTmpl, iconTmpl, mainTmpl)
 	if err != nil {
 		fmt.Println("ParseFiles:", err)
 		return

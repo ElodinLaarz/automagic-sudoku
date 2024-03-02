@@ -26,9 +26,10 @@ type Row struct {
 	Cells []Cell
 }
 type Grid struct {
-	Rows      []Row
-	GridIndex int
-	GridSize  int
+	Rows     []Row
+	GridName string
+	GridSize int
+	Tab      int
 }
 
 func cellIdString(cellIndex, gridIndex int) string {
@@ -70,14 +71,18 @@ func MakeGrids(NumGrids, gridSize int) []Grid {
 	var grids []Grid
 	for gridIndex := 0; gridIndex < NumGrids; gridIndex++ {
 		g := Grid{
-			Rows:      makeGrid(gridSize, gridIndex),
-			GridSize:  gridSize,
-			GridIndex: gridIndex + 1,
+			Rows:     makeGrid(gridSize, gridIndex),
+			GridSize: gridSize,
+			Tab:      1, // To change later...
 		}
-		if gridIndex == 1 {
+		switch gridIndex {
+		case 0: // Original grid.
+			g.GridName = "Domain"
+		case 1: // Shuffled rows.
+			g.GridName = "Permuted Rows"
 			g.shuffleRows(int64(gridIndex))
-		}
-		if gridIndex > 1 {
+		default: // Shuffled cells.
+			g.GridName = "Fixed rows, permuted cells"
 			g.shuffleCells(int64(gridIndex))
 		}
 		grids = append(grids, g)

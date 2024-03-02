@@ -9,16 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/output.css">
 </head>
-<body class="container flex-auto ">
+<body class="container">
     {{ template "sidebar.html" . }}
-    <div id="grid-container" class="grid-container">
-        <div id="grids"
-                hx-get="/grids"
-                hx-target="this"
-                hx-trigger="load"
-                hx-swap="outerHTML">
-            Loading...
-        </div>
+    <div id="main-content" class="content">
+        {{ template "main.html" . }}
     </div>
 </body>
 </html>

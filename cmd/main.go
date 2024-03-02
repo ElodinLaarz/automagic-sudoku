@@ -15,6 +15,7 @@ func main() {
 
 	router.HandleFunc("/", handler.IndexHandler)
 	router.HandleFunc("/grids", handler.GridHandler)
+	router.HandleFunc("/main", handler.MainHandler)
 	router.HandleFunc("/neighbor", handler.NeighborHandler)
 
 	if err := http.ListenAndServe(":8080", router); err != nil {
