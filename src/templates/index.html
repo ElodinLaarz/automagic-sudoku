@@ -7,11 +7,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/output.css">
 </head>
-<body>
-    <h2> Sudoku Sync </h2>
-    <div id="grid-container" class="grid-container">
+{{ template "sidebar.html" . }}
+<body class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold underline"> Sudoku Sync </h2>
+    <div id="grid-container" class="text-green-500 bg-slate-600">
         <div id="grids"
                 hx-get="/grids"
                 hx-target="this"

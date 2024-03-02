@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	DefaultCellClass     = "cell"
+	DefaultCellClass     = "text-green-500"
 	HighlightedCellClass = "cell-highlighted"
 
 	StandardGridSize = 3
@@ -108,7 +108,7 @@ var (
 func RenderGrid(w http.ResponseWriter, gridData map[string][]Grid) error {
 	fmt.Printf("update #%d\n", updateCount)
 	updateCount++
-	tmpl, err := template.ParseFiles("./src/templates/grid.html")
+	tmpl, err := template.ParseFiles("src/templates/grid.html")
 	if err != nil {
 		return fmt.Errorf("error parsing template: %s", err)
 	}
