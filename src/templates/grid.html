@@ -4,19 +4,7 @@
             hx-get="/grids?reset=true"
             hx-trigger="mouseleave"
             hx-target="#grid-container">
-        {{ range .Rows }}
-            <div class="sudoku-row">
-            {{ range .Cells }}
-                <div class="{{ .Class }}"
-                        id="{{ .Id }}"
-                        hx-get="/neighbor?originIndex={{ .OriginIndex }}&relativeIndex={{ .RelativeIndex }}&gridName={{ $gridName }}"
-                        hx-trigger="mouseenter"
-                        hx-target="#grid-container">
-                    {{ range .OriginIndex }}<div class="sudoku-value">{{ . }}</div>{{ end }}
-                </div>
-            {{ end }}
-            </div>
-        {{ end }}
+        {{ template "cell.html" . }}
         <h2 class="text-2xl font-bold text-center">
             {{ .GridName }}
         </h2>

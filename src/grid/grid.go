@@ -9,6 +9,7 @@ import (
 const (
 	DefaultCellClass     = "cell"
 	HighlightedCellClass = "cell-highlighted"
+	HighlightedMainClass = "cell-highlighted-main"
 
 	DomainGridName = "Domain"
 
@@ -21,6 +22,7 @@ type Cell struct {
 	RelativeIndex int
 	Class         string // HTML class.
 	Id            string // HTML id.
+	IsMain        bool
 	// Value         []uint64 // To represent maps, there may be multiple values.
 }
 
@@ -43,14 +45,11 @@ func cellIdString(cellIndex, gridIndex int) string {
 	return fmt.Sprintf("cell-%d-grid-%d", cellIndex, gridIndex)
 }
 
-// func (g *Grid) shuffleRows(seed int64) {
-// 	rand.New(rand.NewSource(seed)).Shuffle(len(g.Rows), func(i, j int) { g.Rows[i], g.Rows[j] = g.Rows[j], g.Rows[i] })
-// }
-
 func (g *Grid) DefaultClass() {
 	for rowIndex := range g.Rows {
 		for colIndex := range g.Rows[rowIndex].Cells {
 			g.Rows[rowIndex].Cells[colIndex].Class = DefaultCellClass
+			g.Rows[rowIndex].Cells[colIndex].IsMain = false
 		}
 	}
 }
@@ -132,22 +131,25 @@ func MakeGrids(NumGrids, singleBoxSize int) map[string]Grid {
 	return grids
 }
 
-func absoluteToRelative(index, sideLength int) (int, int) {
+func AbsoluteToRelative(index, sideLength int) (int, int) {
 	row := index / sideLength
 	col := index % sideLength
 	return row, col
 }
 
-func NeighborCells(relativeIndex, boxSize int, gridName string) map[string]bool {
-	nbs := map[string]bool{}
+func NeighborCells(relativeIndex, boxSize int, gridName string) map[string]int {
+	// I already hate that I am doing this, but we distinguish the
+	// cell the user is hovering over, specifically by giving it a value of 1.
+	nbs := map[string]int{}
 	sideLength := boxSize * boxSize
-	rowN, colN := absoluteToRelative(relativeIndex, sideLength)
-	originIndices := map[int]bool{}
+	rowN, colN := AbsoluteToRelative(relativeIndex, sideLength)
+	mainOriginIndices := map[int]bool{}
+	neighborOriginIndices := map[int]bool{}
 	curGridIndex := Grids[gridName].GridIndex
 	// use relative index for grid the user is hovering over and
 	// generated origin for other.
 	for curAbsIndex := 0; curAbsIndex < sideLength*sideLength; curAbsIndex++ {
-		r, c := absoluteToRelative(curAbsIndex, sideLength)
+		r, c := AbsoluteToRelative(curAbsIndex, sideLength)
 		// neighbors have the same row, column, or equivalence class
 		// mod size in row AND column
 		sameRow := r == rowN
@@ -155,11 +157,17 @@ func NeighborCells(relativeIndex, boxSize int, gridName string) map[string]bool 
 		sameBox := r/boxSize == rowN/boxSize && c/boxSize == colN/boxSize
 
 		if sameRow || sameCol || sameBox {
-			// Add to current grid things.
-			for _, originIndex := range Grids[gridName].Rows[r].Cells[c].OriginIndex {
-				originIndices[originIndex] = true
+			if r == rowN && c == colN {
+				for _, originIndex := range Grids[gridName].Rows[r].Cells[c].OriginIndex {
+					mainOriginIndices[originIndex] = true
+				}
+				nbs[cellIdString(curAbsIndex, curGridIndex)] = 1
+			} else {
+				for _, originIndex := range Grids[gridName].Rows[r].Cells[c].OriginIndex {
+					neighborOriginIndices[originIndex] = true
+				}
+				nbs[cellIdString(curAbsIndex, curGridIndex)] = 0
 			}
-			nbs[cellIdString(curAbsIndex, curGridIndex)] = true
 		}
 	}
 	for name, g := range Grids {
@@ -170,9 +178,15 @@ func NeighborCells(relativeIndex, boxSize int, gridName string) map[string]bool 
 		for _, row := range g.Rows {
 			for _, cell := range row.Cells {
 				for _, originIndex := range cell.OriginIndex {
-					if _, ok := originIndices[originIndex]; ok {
-						nbs[cellIdString(cell.RelativeIndex, g.GridIndex)] = true
-						break // Only needs to match one preimage.
+					if _, ok := mainOriginIndices[originIndex]; ok {
+						nbs[cellIdString(cell.RelativeIndex, g.GridIndex)] = 1
+						break
+					}
+					if _, ok := neighborOriginIndices[originIndex]; ok {
+						nbs[cellIdString(cell.RelativeIndex, g.GridIndex)] = 0
+						// we have to keep searching in case another
+						// origin intersects the currently hovered
+						// cell.
 					}
 				}
 			}
@@ -180,6 +194,11 @@ func NeighborCells(relativeIndex, boxSize int, gridName string) map[string]bool 
 	}
 	return nbs
 }
+
+const (
+	gridTmpl = "src/templates/grid.html"
+	cellTmpl = "src/templates/cell.html"
+)
 
 var (
 	updateCount = 0
@@ -190,7 +209,7 @@ var (
 func RenderGrid(w http.ResponseWriter, gridData map[string]map[string]Grid) error {
 	fmt.Printf("update #%d\n", updateCount)
 	updateCount++
-	tmpl, err := template.ParseFiles("src/templates/grid.html")
+	tmpl, err := template.ParseFiles(gridTmpl, cellTmpl)
 	if err != nil {
 		return fmt.Errorf("error parsing template: %s", err)
 	}

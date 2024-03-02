@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        'variable': 'clamp(2px, 1vw, 1rem)',
+      },
       colors: {
         primary: {
           '50': '#fbf6f5',

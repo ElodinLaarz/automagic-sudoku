@@ -33,14 +33,25 @@ func NeighborHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	gridName := r.URL.Query().Get("gridName")
 	neighbors := grid.NeighborCells(relativeIndex, grid.SingleBoxSize, gridName)
-
+	// fmt.Printf("neighbors: %v\n", neighbors)
 	for _, g := range grid.Grids {
 		for rowIndex, row := range g.Rows {
 			for colIndex, cell := range row.Cells {
-				if _, ok := neighbors[cell.Id]; ok {
-					g.Rows[rowIndex].Cells[colIndex].Class = grid.HighlightedCellClass
+				if val, ok := neighbors[cell.Id]; ok {
+					// As a reminder to my future self -- you chose this life.
+					if val == 1 {
+						// fmt.Printf("main cell: %d\n", cell.RelativeIndex)
+						g.Rows[rowIndex].Cells[colIndex].Class = grid.HighlightedMainClass
+						g.Rows[rowIndex].Cells[colIndex].IsMain = true
+					} else {
+						// fmt.Printf("neighbor cell: %d\n", cell.RelativeIndex)
+						g.Rows[rowIndex].Cells[colIndex].Class = grid.HighlightedCellClass
+						g.Rows[rowIndex].Cells[colIndex].IsMain = false
+					}
 				} else {
+					// fmt.Printf("not a neighbor cell: %d\n", cell.RelativeIndex)
 					g.Rows[rowIndex].Cells[colIndex].Class = grid.DefaultCellClass
+					g.Rows[rowIndex].Cells[colIndex].IsMain = false
 				}
 			}
 		}

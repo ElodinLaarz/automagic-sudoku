@@ -4,18 +4,22 @@
                 <button class="close-btn" id="close-btn">
                         <i class="fas fa-times"></i>
                 </button>
-                <i class="sidebar-icon-l"
+                <i class="sidebar-icon-l group"
                                 id="show-main"
                                 hx-get="/main"
                                 hx-trigger="click"
                                 hx-target="#main-content">
-                        SuVi </i>
-                <i class="sidebar-icon" 
+                        SuVi
+                        <span class="sidebar-tooltip delay-300 group-hover:scale-100">Home: Sudoku Visualizations</span>
+                </i>
+                <i class="sidebar-icon group" 
                                 id="show-grids"
                                 hx-get="/grids"
                                 hx-trigger="click"
                                 hx-target="#grid-container">
-                        Iso </i>
+                        Iso
+                        <span class="sidebar-tooltip group-hover:scale-100">Random Maps</span>
+                        </i>
                 <i class="sidebar-icon">
                         Phi </i>
                 <i class="sidebar-icon"> WIP </i>

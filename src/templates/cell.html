@@ -1,0 +1,17 @@
+{{ $gridName := .GridName }}
+{{ range .Rows }}
+    <div class="sudoku-row">
+        {{ range .Cells }}
+            <div class="{{ .Class }} group"
+                id="{{ .Id }}"
+                hx-get="/neighbor?originIndex={{ .OriginIndex }}&relativeIndex={{ .RelativeIndex }}&gridName={{ $gridName }}"
+                hx-trigger="mouseenter"
+                hx-target="#grid-container">
+            {{ if .IsMain }} 
+                {{ .RelativeIndex }}
+                <span class="tooltip delay-300 group-hover:scale-100">{{ .OriginIndex }}</span>
+            {{ end }}
+        </div>
+        {{ end }}
+    </div>
+{{ end }}

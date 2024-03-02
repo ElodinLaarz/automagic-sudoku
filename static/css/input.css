@@ -50,6 +50,7 @@
     .sidebar-setting:hover {
         @apply bg-primary-300 text-secondary-950;
     }
+
     .sidebar {
         @apply fixed
             grid
@@ -60,28 +61,6 @@
             bg-secondary-900
             shadow-primary-300
             shadow-md;
-    }
-
-    .cell {
-        @apply grid text-primary-300
-            border-2
-            border-transparent
-            bg-secondary-800
-            cursor-pointer
-            w-10 h-10
-            text-center
-            text-wrap;
-    }
-
-    .cell-highlighted {
-        @apply bg-primary-300 text-black
-            border-2 border-secondary-900
-            duration-700
-            cursor-pointer
-            w-10 h-10
-            text-center
-            border-dashed
-            text-wrap;
     }
 
     .grid-container {
@@ -98,8 +77,6 @@
     .sudoku-grid {
         @apply flex flex-col justify-around
             items-stretch
-            /* w-72 h-72 */
-            /* bg-primary-900 */
             border-primary-100
             border-2
             aspect-square;
@@ -109,6 +86,66 @@
         @apply flex
             items-center
             flex-row;
-}
+    }
 
+    .cell {
+        @apply p-1 text-primary-300
+            space-x-1
+            border-2
+            border-transparent
+            bg-secondary-800
+            cursor-pointer
+            w-10 h-10
+            font-bold
+            line-clamp-3
+            text-ellipsis
+            text-lg
+            justify-center
+            text-center
+            text-wrap;
+    }
+
+    .cell-highlighted-main {
+        @apply p-1 grid-flow-col
+            bg-primary-500 text-black
+            border-2 border-secondary-900
+            duration-700
+            cursor-pointer
+            w-10 h-10
+            border-dashed
+            justify-evenly
+            text-center
+            text-variable 
+            group-hover:scale-100;
+    }
+
+    .cell-highlighted {
+        @apply p-1 grid-flow-col
+            bg-primary-300 text-black
+            border-2 border-secondary-900
+            duration-700
+            cursor-pointer
+            w-10 h-10
+            border-dashed
+            justify-evenly
+            text-center
+            text-variable;
+    }
+
+    .sidebar-tooltip {
+        @apply absolute w-auto p-2 m-2 min-w-max left-14
+        rounded-md shadow-md
+        text-white bg-gray-900 
+        text-xs font-bold
+        transition-all duration-100 scale-0 origin-left;
+    }
+
+    .tooltip {
+        @apply relative flex flex-row
+        w-20 p-2 m-2 left-2
+        rounded-md shadow-md
+        text-primary-300 bg-gray-900 
+        text-xs font-bold
+        transition-all duration-100 scale-0 origin-left;
+    }
 }

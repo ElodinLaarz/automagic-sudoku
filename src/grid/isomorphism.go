@@ -3,6 +3,7 @@ package grid
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 )
 
 type SudokuMap map[int]int
@@ -23,6 +24,9 @@ func (sm SudokuMap) Preimage() map[int][]int {
 	preimage := make(map[int][]int)
 	for k, v := range sm {
 		preimage[v] = append(preimage[v], k)
+	}
+	for k := range preimage {
+		sort.Ints(preimage[k])
 	}
 	return preimage
 }
