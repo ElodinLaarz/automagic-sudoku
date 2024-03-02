@@ -28,7 +28,7 @@ var exampleIcons = []IconTemplate{
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	templateData := map[string]any{
-		"grid": grid.MakeGrids(grid.NumGrids, grid.StandardGridSize),
+		"grid": grid.Grids,
 		"icon": exampleIcons,
 	}
 	tmpl, err := template.ParseFiles(indexTmpl, sidebarTmpl, iconTmpl, mainTmpl)

@@ -63,14 +63,14 @@
     }
 
     .cell {
-        @apply text-primary-300
+        @apply grid text-primary-300
             border-2
             border-transparent
             bg-secondary-800
             cursor-pointer
             w-10 h-10
             text-center
-            text-2xl;
+            text-wrap;
     }
 
     .cell-highlighted {
@@ -81,7 +81,7 @@
             w-10 h-10
             text-center
             border-dashed
-            text-2xl;
+            text-wrap;
     }
 
     .grid-container {

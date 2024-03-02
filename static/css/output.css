@@ -694,16 +694,16 @@ video {
 }
 
 .cell {
+  display: grid;
   height: 2.5rem;
   width: 2.5rem;
   cursor: pointer;
+  text-wrap: wrap;
   border-width: 2px;
   border-color: transparent;
   --tw-bg-opacity: 1;
   background-color: rgb(30 41 59 / var(--tw-bg-opacity));
   text-align: center;
-  font-size: 1.5rem;
-  line-height: 2rem;
   --tw-text-opacity: 1;
   color: rgb(228 195 189 / var(--tw-text-opacity));
 }
@@ -712,6 +712,7 @@ video {
   height: 2.5rem;
   width: 2.5rem;
   cursor: pointer;
+  text-wrap: wrap;
   border-width: 2px;
   border-style: dashed;
   --tw-border-opacity: 1;
@@ -719,8 +720,6 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(228 195 189 / var(--tw-bg-opacity));
   text-align: center;
-  font-size: 1.5rem;
-  line-height: 2rem;
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
   transition-duration: 700ms;
@@ -756,6 +755,10 @@ video {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.relative {
+  position: relative;
 }
 
 .grid {

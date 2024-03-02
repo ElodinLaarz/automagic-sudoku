@@ -1,16 +1,18 @@
 {{ range .grid }}
     {{ $gridName := .GridName }}
-    {{ $tab := .Tab }}
-    <div class="sudoku-grid">
+    <div class="sudoku-grid"
+            hx-get="/grids?reset=true"
+            hx-trigger="mouseleave"
+            hx-target="#grid-container">
         {{ range .Rows }}
             <div class="sudoku-row">
             {{ range .Cells }}
                 <div class="{{ .Class }}"
                         id="{{ .Id }}"
-                        hx-get="/neighbor?originIndex={{ .OriginIndex }}&gridName={{ $gridName }}&tab={{ $tab }}"
+                        hx-get="/neighbor?originIndex={{ .OriginIndex }}&relativeIndex={{ .RelativeIndex }}&gridName={{ $gridName }}"
                         hx-trigger="mouseenter"
                         hx-target="#grid-container">
-                    {{ .OriginIndex }}
+                    {{ range .OriginIndex }}<div class="sudoku-value">{{ . }}</div>{{ end }}
                 </div>
             {{ end }}
             </div>
