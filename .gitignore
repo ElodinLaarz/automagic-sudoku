@@ -173,3 +173,12 @@ cython_debug/
 
 bin
 tmp
+
+# zig
+zig-cache/
+zig-out/
+/release/
+/debug/
+/build/
+/build-*/
+/docgen_tmp/
